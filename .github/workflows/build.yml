@@ -8,6 +8,8 @@ name: Create package
 jobs:
   linux:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v2
     - name: Install NetCDF
