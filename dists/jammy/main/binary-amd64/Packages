@@ -1,0 +1,19 @@
+Package: om-eccodes
+Version: 0.0.18
+License: unknown
+Vendor: none
+Architecture: amd64
+Maintainer: <@925a9f782816>
+Installed-Size: 58529
+Depends: libaec0, libc6, libgfortran5, libgomp1, libopenjp2-7, libpng16-16
+Replaces: libeccodes0, libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
+Homepage: http://example.com/no-uri-given
+Priority: extra
+Section: default
+Filename: pool/main/o/om-eccodes/om-eccodes_0.0.18_amd64.deb
+Size: 16725648
+SHA256: 9f26594896cddce6c3394e72e1980432076e4bcec883fffebe686a80a0fa682a
+SHA1: 6d9475ea975a5402db76e2e4c21135f7c06ae848
+MD5sum: 9e980708307f1048f0b1e582ba473c09
+Description: no description given
+

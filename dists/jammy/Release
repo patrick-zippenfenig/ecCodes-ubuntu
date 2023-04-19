@@ -1,0 +1,17 @@
+Codename: jammy
+Date: Wed, 19 Apr 2023 20:48:57 UTC
+Architectures: amd64
+Components: main
+Description: patrick-zippenfenig/ecCodes-ubuntu
+MD5Sum:
+ edd6c8dd70ed454e604ff65aa6632b4a 647 main/binary-amd64/Packages
+ 5923ad353342b80a3cd3114fecf736ca 434 main/binary-amd64/Packages.gz
+ f30151b243370ab69a56fbe8c25c81d0 84 main/binary-amd64/Release
+SHA1:
+ 63a5a53b1ee70847f0c29c4b2afde122a1e7043b 647 main/binary-amd64/Packages
+ 349f68bce0e5485b50a13351e01cebf681c9a802 434 main/binary-amd64/Packages.gz
+ f299a1f1961bb4f5506646dcc474fa6e98f17445 84 main/binary-amd64/Release
+SHA256:
+ 25ccc0442538ab4f3a6b87ec4cb4f8a649fc1ba3b160e65ab81939325e293c97 647 main/binary-amd64/Packages
+ 0bc133d67bd7b987b85d4758f638a85016cad1f4bb2bc136e457e3a945bb65cc 434 main/binary-amd64/Packages.gz
+ d4039875f6ab7f717c4994876b07b6c4e6de7729b650906a380565b516bb31d3 84 main/binary-amd64/Release
