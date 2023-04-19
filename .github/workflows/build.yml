@@ -28,21 +28,21 @@ jobs:
       uses: gravitl/github-action-fpm@master
       with:
         fpm_args: '.'
-        fpm_opts: '-s dir -t deb -C ./install_dir -n om-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev'
+        fpm_opts: '-s dir -t deb -C ./install_dir -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev'
     - name: Rename deb file
-      run: mv om-eccodes_${{github.ref_name}}_amd64.deb om-eccodes_${{github.ref_name}}_jammy_amd64.deb
+      run: mv libeccodes0_${{github.ref_name}}_amd64.deb libeccodes0_${{github.ref_name}}_jammy_amd64.deb
     - name: Release
       uses: ncipollo/release-action@v1
       with:
         generateReleaseNotes: true
-        artifacts: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
+        artifacts: 'libeccodes0_${{github.ref_name}}_jammy_amd64.deb'
         draft: true
     - name: Create API repo
       uses: patrick-zippenfenig/apt-repo-action@master
       with:
         repo_supported_arch: amd64
         repo_supported_version: jammy
-        file: om-eccodes_${{github.ref_name}}_jammy_amd64.deb
+        file: libeccodes0_${{github.ref_name}}_jammy_amd64.deb
         file_target_version: jammy
         public_key: ${{ secrets.GPG_PUBLIC }}
         private_key: ${{ secrets.GPG_PRIVATE }}
@@ -57,7 +57,7 @@ jobs:
     #  with:
     #    repo_supported_arch: amd64
     #    repo_supported_version: jammy
-    #    file: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
+    #    file: 'libeccodes0_${{github.ref_name}}_jammy_amd64.deb'
     #    file_target_version: jammy
     #    public_key: ${{ secrets.GPG_PUBLIC }}
     #    private_key: ${{ secrets.GPG_PRIVATE }}
