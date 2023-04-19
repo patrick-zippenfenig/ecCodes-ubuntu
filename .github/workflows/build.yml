@@ -37,6 +37,17 @@ jobs:
         generateReleaseNotes: true
         artifacts: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
         draft: true
+    - name: Create API repo
+      uses: jrandiny/apt-repo-action@v1
+      with:
+        github_token: ${{ secrets.PAT }}
+        arch: amd64
+        version: jammy
+        file: om-eccodes_${{github.ref_name}}_jammy_amd64.deb
+        file_target_version: jammy
+        public_key: ${{ secrets.GPG_PUBLIC }}
+        private_key: ${{ secrets.GPG_PRIVATE }}
+        key_passphrase: ""
     #- name: Create APT repository
     #  uses: patrick-zippenfenig/apt-repo-action@master
     #  with:
