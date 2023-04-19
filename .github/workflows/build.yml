@@ -1,0 +1,53 @@
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+name: Create package
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Install NetCDF
+      run: apt-get update && apt-get -qq -y install wget gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev
+    - name: Fetch Source code
+      run: wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.30.0-Source.tar.gz?api=v2
+    - run: tar -xzf eccodes-2.27.0-Source.tar.gz?api=v2
+    - run: mkdir build /tmp/install && cd build
+    - run: cmake -DCMAKE_INSTALL_PREFIX=/tmp/install -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0  ../eccodes-2.30.0-Source
+    - run: make -j4
+    - run: make install
+    - name: Package
+      uses: gravitl/github-action-fpm@master
+      with:
+        fpm_args: '.'
+        fpm_opts: '-s dir -t deb -C /tmp/install -n om-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev'
+    - name: Rename deb file
+      run: mv om-eccodes_${{github.ref_name}}_amd64.deb om-eccodes_${{github.ref_name}}_jammy_amd64.deb
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        generateReleaseNotes: true
+        artifacts: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
+        draft: true
+    #- name: Create APT repository
+    #  uses: patrick-zippenfenig/apt-repo-action@master
+    #  with:
+    #    repo_supported_arch: amd64
+    #    repo_supported_version: jammy
+    #    file: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
+    #    file_target_version: jammy
+    #    public_key: ${{ secrets.GPG_PUBLIC }}
+    #    private_key: ${{ secrets.GPG_PRIVATE }}
+    #    key_passphrase: ${{ secrets.GPG_SECRET }}
+    #- name: Upload to FTP
+    #  uses: SamKirkland/FTP-Deploy-Action@4.3.0
+    #  with:
+    #    server: storage.bunnycdn.com
+    #    username: apt-repo
+    #    password: ${{ secrets.ftp_password }}
+    #    local-dir: './repo/'
+    #    server-dir: 'aaa/../'
+    #- name: Purge APT CDN cache
+    #  run: "curl --request POST --url https://api.bunny.net/pullzone/884852/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
