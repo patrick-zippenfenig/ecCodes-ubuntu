@@ -38,9 +38,8 @@ jobs:
         artifacts: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
         draft: true
     - name: Create API repo
-      uses: jrandiny/apt-repo-action@v2.0.1
+      uses: patrick-zippenfenig/apt-repo-action@master
       with:
-        github_token: ${{ secrets.PAT }}
         repo_supported_arch: amd64
         repo_supported_version: jammy
         file: om-eccodes_${{github.ref_name}}_jammy_amd64.deb
@@ -48,3 +47,28 @@ jobs:
         public_key: ${{ secrets.GPG_PUBLIC }}
         private_key: ${{ secrets.GPG_PRIVATE }}
         key_passphrase: ""
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: repo 
+        # The folder the action should deploy.
+    #- name: Create APT repository
+    #  uses: patrick-zippenfenig/apt-repo-action@master
+    #  with:
+    #    repo_supported_arch: amd64
+    #    repo_supported_version: jammy
+    #    file: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
+    #    file_target_version: jammy
+    #    public_key: ${{ secrets.GPG_PUBLIC }}
+    #    private_key: ${{ secrets.GPG_PRIVATE }}
+    #    key_passphrase: ${{ secrets.GPG_SECRET }}
+    #- name: Upload to FTP
+    #  uses: SamKirkland/FTP-Deploy-Action@4.3.0
+    #  with:
+    #    server: storage.bunnycdn.com
+    #    username: apt-repo
+    #    password: ${{ secrets.ftp_password }}
+    #    local-dir: './repo/'
+    #    server-dir: 'aaa/../'
+    #- name: Purge APT CDN cache
+    #  run: "curl --request POST --url https://api.bunny.net/pullzone/884852/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
