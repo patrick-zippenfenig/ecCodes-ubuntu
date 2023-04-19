@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: Install NetCDF
-      run: apt-get update && apt-get -qq -y install wget gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev
+      run: sudo apt-get update && sudo apt-get -qq -y install wget gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev
     - name: Fetch Source code
       run: wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.30.0-Source.tar.gz?api=v2
     - run: tar -xzf eccodes-2.27.0-Source.tar.gz?api=v2
