@@ -1,19 +1,21 @@
-Package: libeccodes0
+Package: openmeteo-eccodes
 Version: 2.30.0
 License: unknown
 Vendor: none
 Architecture: amd64
-Maintainer: <@8bf823527f53>
+Maintainer: <@048f914c95cc>
 Installed-Size: 58529
-Depends: libaec0, libc6, libgfortran5, libgomp1, libopenjp2-7, libpng16-16
-Replaces: libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
+Depends: libaec0, libc6, libgfortran5, libgomp1, libopenjp2-7, libpng16-16, libnetcdf19
+Conflicts: libeccodes0, libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
+Provides: libeccodes0, libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
+Replaces: libeccodes0, libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
 Homepage: http://example.com/no-uri-given
 Priority: extra
 Section: default
-Filename: pool/main/libe/libeccodes0/libeccodes0_2.30.0_amd64.deb
-Size: 16726562
-SHA256: 0453bcd7022c8e230efb980328c6b0383bcc5936850989377e0ca7775c4d4bac
-SHA1: 1ce05707a7772545c587d803966b5b1fa5a85944
-MD5sum: cbb0b3ac7c39d0dbc0a5a90b5390c5c1
+Filename: pool/main/o/openmeteo-eccodes/openmeteo-eccodes_2.30.0_amd64.deb
+Size: 16725886
+SHA256: 88a7be130c9136af84d72f3fe880e5aa8ff15de01a832cb3dfd2346be637117e
+SHA1: 7117cf29e3c7848082f0af650b7be6375c240ff7
+MD5sum: b1ac219edcf4c27e555712b744055f70
 Description: no description given
 
