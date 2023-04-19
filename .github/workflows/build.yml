@@ -28,21 +28,21 @@ jobs:
       uses: gravitl/github-action-fpm@master
       with:
         fpm_args: '.'
-        fpm_opts: '-s dir -t deb -C ./install_dir -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev'
+        fpm_opts: '-s dir -t deb -C ./install_dir -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev'
     - name: Rename deb file
-      run: mv libeccodes0_${{github.ref_name}}_amd64.deb libeccodes0_${{github.ref_name}}_jammy_amd64.deb
+      run: mv openmeteo-eccodes_${{github.ref_name}}_amd64.deb openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
     - name: Release
       uses: ncipollo/release-action@v1
       with:
         generateReleaseNotes: true
-        artifacts: 'libeccodes0_${{github.ref_name}}_jammy_amd64.deb'
+        artifacts: 'openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb'
         draft: true
     - name: Create API repo
       uses: patrick-zippenfenig/apt-repo-action@master
       with:
         repo_supported_arch: amd64
         repo_supported_version: jammy
-        file: libeccodes0_${{github.ref_name}}_jammy_amd64.deb
+        file: openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
         file_target_version: jammy
         public_key: ${{ secrets.GPG_PUBLIC }}
         private_key: ${{ secrets.GPG_PRIVATE }}
@@ -57,7 +57,7 @@ jobs:
     #  with:
     #    repo_supported_arch: amd64
     #    repo_supported_version: jammy
-    #    file: 'libeccodes0_${{github.ref_name}}_jammy_amd64.deb'
+    #    file: 'openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb'
     #    file_target_version: jammy
     #    public_key: ${{ secrets.GPG_PUBLIC }}
     #    private_key: ${{ secrets.GPG_PRIVATE }}
