@@ -9,6 +9,7 @@ jobs:
   linux:
     runs-on: ubuntu-22.04
     steps:
+    - uses: actions/checkout@v2
     - name: Install NetCDF
       run: sudo apt-get update && sudo apt-get -qq -y install wget gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev
     - name: Fetch Source code
@@ -18,6 +19,7 @@ jobs:
     - run: mkdir installdir
     - run: cd build
     - run: pwd
+    - run: ls
     - run: ls ..
     - run: cmake -DCMAKE_INSTALL_PREFIX=../installdir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes-2.30.0-Source
     - run: make -j4
