@@ -38,7 +38,7 @@ jobs:
         artifacts: 'om-eccodes_${{github.ref_name}}_jammy_amd64.deb'
         draft: true
     - name: Create API repo
-      uses: jrandiny/apt-repo-action@v2
+      uses: jrandiny/apt-repo-action@v2.0.1
       with:
         github_token: ${{ secrets.PAT }}
         arch: amd64
