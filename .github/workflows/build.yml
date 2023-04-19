@@ -16,6 +16,8 @@ jobs:
     - run: tar -xzf eccodes.tar.gz
     - run: mkdir -p build installdir
     - run: cd build
+    - run: pwd
+    - run: ls ..
     - run: cmake -DCMAKE_INSTALL_PREFIX=../installdir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes-2.30.0-Source
     - run: make -j4
     - run: make install
