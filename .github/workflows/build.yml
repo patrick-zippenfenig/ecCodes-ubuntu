@@ -14,8 +14,9 @@ jobs:
     - name: Fetch Source code
       run: wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.30.0-Source.tar.gz?api=v2 -O eccodes.tar.gz
     - run: tar -xzf eccodes.tar.gz
-    - run: mkdir build /tmp/install && cd build
+    - run: mkdir -p build /tmp/install && cd build
     - run: ls ..
+    - run: pwd
     - run: cmake -DCMAKE_INSTALL_PREFIX=/tmp/install -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes-2.30.0-Source
     - run: make -j4
     - run: make install
