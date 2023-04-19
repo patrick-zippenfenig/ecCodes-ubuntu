@@ -15,13 +15,13 @@ jobs:
     - name: Install NetCDF
       run: sudo apt-get update && sudo apt-get -qq -y install wget gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev
     - name: Fetch Source code
-      run: wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.30.0-Source.tar.gz?api=v2 -O eccodes.tar.gz
+      run: wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-${{github.ref_name}}-Source.tar.gz?api=v2 -O eccodes.tar.gz
     - run: tar -xzf eccodes.tar.gz
     - run: mkdir -p build install_dir
     - name: Compile
       working-directory: build
       run: |
-        cmake -DCMAKE_INSTALL_PREFIX=../install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes-2.30.0-Source
+        cmake -DCMAKE_INSTALL_PREFIX=../install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes-${{github.ref_name}}-Source
         make -j4
         make install
     - name: Package
