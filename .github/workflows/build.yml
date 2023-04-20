@@ -99,9 +99,20 @@ jobs:
             amd64
             arm64
           repo_supported_version: jammy
-          file: |
-            openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
-            openmeteo-eccodes_${{github.ref_name}}_jammy_arm64.deb
+          file: openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
+          file_target_version: jammy
+          public_key: ${{ secrets.GPG_PUBLIC }}
+          private_key: ${{ secrets.GPG_PRIVATE }}
+          key_passphrase: ""
+
+      - name: Create API repo
+        uses: patrick-zippenfenig/apt-repo-action@master
+        with:
+          repo_supported_arch: |
+            amd64
+            arm64
+          repo_supported_version: jammy
+          file: openmeteo-eccodes_${{github.ref_name}}_jammy_arm64.deb
           file_target_version: jammy
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
