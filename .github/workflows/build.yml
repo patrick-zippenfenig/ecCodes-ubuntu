@@ -1,3 +1,5 @@
+# multi platform build see https://github.com/laoshanxi/app-mesh/blob/main/.github/workflows/publish-github-release.yml
+
 on:
   push:
     tags:
@@ -8,17 +10,27 @@ name: Create repository
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - arch: arm64
+            variant: v8
+          - arch: amd64
+
     permissions:
-      contents: write
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: |
-            amd64
-            arm64
+          platforms: ${{ matrix.arch }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -31,33 +43,46 @@ jobs:
           tar -xzf eccodes.tar.gz
           mv eccodes-${{github.ref_name}}-Source eccodes
 
-      - name: build arm64 with ubuntu22
+      - name: build with ubuntu22
         run: |
-          build_dir=build_ubuntu22_arm64
-          install_dir=install_ubuntu22_arm64
-          docker run --platform arm64 --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace arm64v8/ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
-      - name: build amd64 with ubuntu22
-        run: |
-          build_dir=build_ubuntu22_amd64
-          install_dir=install_ubuntu22_amd64
-          docker run --platform amd64 --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace amd64/ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
+          build_dir=build_ubuntu22_${{ matrix.arch }}
+          install_dir=install_ubuntu22_${{ matrix.arch }}
+          docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
 
-      - name: Package ubuntu22 amd64
+      - name: Package ubuntu22
         uses: gravitl/github-action-fpm@master
         with:
           fpm_args: "."
-          fpm_opts: "-s dir -t deb -a amd64 -C ./install_ubuntu22_amd64 -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
-      - name: Package ubuntu22 arm64
-        uses: gravitl/github-action-fpm@master
-        with:
-          fpm_args: "."
-          fpm_opts: "-s dir -t deb -a arm64 -C ./install_ubuntu22_arm64 -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
-      
+          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu22_${{ matrix.arch }} -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
+
       - name: Rename deb file
         run: |
-          mv openmeteo-eccodes_${{github.ref_name}}_amd64.deb openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
-          mv openmeteo-eccodes_${{github.ref_name}}_arm64.deb openmeteo-eccodes_${{github.ref_name}}_jammy_arm64.deb
-      
+          mv openmeteo-eccodes_${{github.ref_name}}_${{ matrix.arch }}.deb openmeteo-eccodes_${{github.ref_name}}_jammy_${{ matrix.arch }}.deb
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.arch }}
+          path: |
+            *.deb
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs:
+      - build
+    if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - name: Download arm64 packages
+        uses: actions/download-artifact@v3
+        with:
+          name: arm64
+      - name: Download amd64 packages
+        uses: actions/download-artifact@v3
+        with:
+          name: amd64
+
       - name: Release
         uses: ncipollo/release-action@v1
         with:
