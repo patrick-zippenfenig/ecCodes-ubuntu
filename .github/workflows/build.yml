@@ -53,7 +53,7 @@ jobs:
         uses: gravitl/github-action-fpm@master
         with:
           fpm_args: "."
-          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu22_${{ matrix.arch }} -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
+          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu22_${{ matrix.arch }} -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
 
       - name: Rename deb file
         run: |
