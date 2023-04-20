@@ -47,7 +47,7 @@ jobs:
         run: |
           build_dir=build_ubuntu22_${{ matrix.arch }}
           install_dir=install_ubuntu22_${{ matrix.arch }}
-          docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=$install_dir"
+          docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=../$install_dir"
 
       - name: Package ubuntu22
         uses: gravitl/github-action-fpm@master
