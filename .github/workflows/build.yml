@@ -1,74 +1,89 @@
 on:
   push:
     tags:
-      - '*.*.*'
+      - "*.*.*"
 
-name: Create package
+name: Create repository
 
 jobs:
-  linux:
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v2
-    - name: Install NetCDF
-      run: sudo apt-get update && sudo apt-get -qq -y install wget gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev
-    - name: Fetch Source code
-      run: wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-${{github.ref_name}}-Source.tar.gz?api=v2 -O eccodes.tar.gz
-    - run: tar -xzf eccodes.tar.gz
-    - run: mkdir -p build install_dir
-    - name: Compile
-      working-directory: build
-      run: |
-        cmake -DCMAKE_INSTALL_PREFIX=../install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes-${{github.ref_name}}-Source
-        make -j4
-        make install
-    - name: Package
-      uses: gravitl/github-action-fpm@master
-      with:
-        fpm_args: '.'
-        fpm_opts: '-s dir -t deb -C ./install_dir -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev'
-    - name: Rename deb file
-      run: mv openmeteo-eccodes_${{github.ref_name}}_amd64.deb openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
-    - name: Release
-      uses: ncipollo/release-action@v1
-      with:
-        generateReleaseNotes: true
-        artifacts: 'openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb'
-        draft: true
-    - name: Create API repo
-      uses: patrick-zippenfenig/apt-repo-action@master
-      with:
-        repo_supported_arch: amd64
-        repo_supported_version: jammy
-        file: openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
-        file_target_version: jammy
-        public_key: ${{ secrets.GPG_PUBLIC }}
-        private_key: ${{ secrets.GPG_PRIVATE }}
-        key_passphrase: ""
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: repo 
-        # The folder the action should deploy.
-    #- name: Create APT repository
-    #  uses: patrick-zippenfenig/apt-repo-action@master
-    #  with:
-    #    repo_supported_arch: amd64
-    #    repo_supported_version: jammy
-    #    file: 'openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb'
-    #    file_target_version: jammy
-    #    public_key: ${{ secrets.GPG_PUBLIC }}
-    #    private_key: ${{ secrets.GPG_PRIVATE }}
-    #    key_passphrase: ${{ secrets.GPG_SECRET }}
-    #- name: Upload to FTP
-    #  uses: SamKirkland/FTP-Deploy-Action@4.3.0
-    #  with:
-    #    server: storage.bunnycdn.com
-    #    username: apt-repo
-    #    password: ${{ secrets.ftp_password }}
-    #    local-dir: './repo/'
-    #    server-dir: 'aaa/../'
-    #- name: Purge APT CDN cache
-    #  run: "curl --request POST --url https://api.bunny.net/pullzone/884852/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
+      - uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: |
+            amd64
+            arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          install: true
+
+      - name: Fetch Source code
+        run: |
+          sudo apt-get update && sudo apt-get -qq -y install wget
+          wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-${{github.ref_name}}-Source.tar.gz?api=v2 -O eccodes.tar.gz
+          tar -xzf eccodes.tar.gz
+          mv eccodes-${{github.ref_name}}-Source eccodes
+
+      - name: build amd64 with ubuntu22
+        run: |
+          build_dir=build_ubuntu22_amd64
+          install_dir=install_ubuntu22_amd64
+          docker run --platform amd64 --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "sudo apt-get update && sudo apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
+      - name: build arm64 with ubuntu22
+        run: |
+          build_dir=build_ubuntu22_arm64
+          install_dir=install_ubuntu22_arm64
+          docker run --platform arm64 --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "sudo apt-get update && sudo apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
+
+      - name: Package ubuntu22 amd64
+        uses: gravitl/github-action-fpm@master
+        with:
+          fpm_args: "."
+          fpm_opts: "-s dir -t deb -a amd64 -C ./install_ubuntu22_amd64 -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
+      - name: Package ubuntu22 arm64
+        uses: gravitl/github-action-fpm@master
+        with:
+          fpm_args: "."
+          fpm_opts: "-s dir -t deb -a arm64 -C ./install_ubuntu22_arm64 -n openmeteo-eccodes -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes0 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --conflicts libeccodes0 --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev --provides libeccodes0 --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev"
+      
+      - name: Rename deb file
+        run: |
+          mv openmeteo-eccodes_${{github.ref_name}}_amd64.deb openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
+          mv openmeteo-eccodes_${{github.ref_name}}_arm64.deb openmeteo-eccodes_${{github.ref_name}}_jammy_arm64.deb
+      
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          generateReleaseNotes: true
+          artifacts: |
+            openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
+            openmeteo-eccodes_${{github.ref_name}}_jammy_arm64.deb
+          draft: true
+
+      - name: Create API repo
+        uses: patrick-zippenfenig/apt-repo-action@master
+        with:
+          repo_supported_arch: |
+            amd64
+            arm64
+          repo_supported_version: jammy
+          file: |
+            openmeteo-eccodes_${{github.ref_name}}_jammy_amd64.deb
+            openmeteo-eccodes_${{github.ref_name}}_jammy_arm64.deb
+          file_target_version: jammy
+          public_key: ${{ secrets.GPG_PUBLIC }}
+          private_key: ${{ secrets.GPG_PRIVATE }}
+          key_passphrase: ""
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: repo
