@@ -31,16 +31,16 @@ jobs:
           tar -xzf eccodes.tar.gz
           mv eccodes-${{github.ref_name}}-Source eccodes
 
-      - name: build amd64 with ubuntu22
-        run: |
-          build_dir=build_ubuntu22_amd64
-          install_dir=install_ubuntu22_amd64
-          docker run --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace amd64/ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
       - name: build arm64 with ubuntu22
         run: |
           build_dir=build_ubuntu22_arm64
           install_dir=install_ubuntu22_arm64
-          docker run --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace arm64v8/ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
+          docker run --platform arm64 --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace arm64v8/ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
+      - name: build amd64 with ubuntu22
+        run: |
+          build_dir=build_ubuntu22_amd64
+          install_dir=install_ubuntu22_amd64
+          docker run --platform amd64 --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace amd64/ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=../$install_dir -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install"
 
       - name: Package ubuntu22 amd64
         uses: gravitl/github-action-fpm@master
