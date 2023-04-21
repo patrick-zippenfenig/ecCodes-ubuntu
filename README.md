@@ -10,7 +10,7 @@ curl -L https://patrick-zippenfenig.github.io/ecCodes-ubuntu/public.key | sudo g
 echo "deb https://patrick-zippenfenig.github.io/ecCodes-ubuntu/ jammy main" | sudo tee /etc/apt/sources.list.d/ecCodes-ubuntu.list
 
 sudo apt update
-sudo apt install openmeteo-eccodes
+sudo apt install libeccodes0
 ```
 
 
