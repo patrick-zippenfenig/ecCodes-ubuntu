@@ -51,8 +51,8 @@ jobs:
 
       - name: Add symlink
         run: |
-          ln -s /usr/lib/x86_64-linux-gnu/libeccodes.so ../install_ubuntu22_amd64/usr/lib/x86_64-linux-gnu/libeccodes.so.0
-          ln -s /usr/lib/aarch64-linux-gnu/libeccodes.so ../install_ubuntu22_arm64/usr/lib/aarch64-linux-gnu/libeccodes.so.0
+          ln -s /usr/lib/x86_64-linux-gnu/libeccodes.so install_ubuntu22_amd64/usr/lib/x86_64-linux-gnu/libeccodes.so.0
+          ln -s /usr/lib/aarch64-linux-gnu/libeccodes.so install_ubuntu22_arm64/usr/lib/aarch64-linux-gnu/libeccodes.so.0
 
       - name: Package ubuntu22
         uses: gravitl/github-action-fpm@master
