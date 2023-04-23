@@ -49,6 +49,12 @@ jobs:
           install_dir=install_ubuntu22_${{ matrix.arch }}
           docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=../$install_dir; ln -s /usr/lib/\`uname -m\`-linux-gnu/libeccodes.so ../$install_dir/usr/lib/\`uname -m\`-linux-gnu/libeccodes.so.0"
 
+      - name: build with ubuntu23
+        run: |
+          build_dir=build_ubuntu23_${{ matrix.arch }}
+          install_dir=install_ubuntu23_${{ matrix.arch }}
+          docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:lunar /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=../$install_dir; ln -s /usr/lib/\`uname -m\`-linux-gnu/libeccodes.so ../$install_dir/usr/lib/\`uname -m\`-linux-gnu/libeccodes.so.0"
+
       - name: Package ubuntu22
         uses: gravitl/github-action-fpm@master
         with:
@@ -58,6 +64,16 @@ jobs:
       - name: Rename deb file
         run: |
           mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_jammy_${{ matrix.arch }}.deb
+
+      - name: Package ubuntu23
+        uses: gravitl/github-action-fpm@master
+        with:
+          fpm_args: "."
+          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu23_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
+
+      - name: Rename deb file
+        run: |
+          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_lunar_${{ matrix.arch }}.deb
 
       - name: Upload packages
         uses: actions/upload-artifact@v3
@@ -91,6 +107,8 @@ jobs:
           artifacts: |
             libeccodes0_${{github.ref_name}}_jammy_amd64.deb
             libeccodes0_${{github.ref_name}}_jammy_arm64.deb
+            libeccodes0_${{github.ref_name}}_lunar_amd64.deb
+            libeccodes0_${{github.ref_name}}_lunar_arm64.deb
           draft: true
 
       - name: Create API repo
@@ -99,7 +117,9 @@ jobs:
           repo_supported_arch: |
             amd64
             arm64
-          repo_supported_version: jammy
+          repo_supported_version: |
+            jammy
+            lunar
           file: libeccodes0_${{github.ref_name}}_jammy_amd64.deb
           file_target_version: jammy
           public_key: ${{ secrets.GPG_PUBLIC }}
@@ -112,9 +132,41 @@ jobs:
           repo_supported_arch: |
             amd64
             arm64
-          repo_supported_version: jammy
+          repo_supported_version: |
+            jammy
+            lunar
           file: libeccodes0_${{github.ref_name}}_jammy_arm64.deb
           file_target_version: jammy
+          public_key: ${{ secrets.GPG_PUBLIC }}
+          private_key: ${{ secrets.GPG_PRIVATE }}
+          key_passphrase: ""
+
+      - name: Create API repo
+        uses: patrick-zippenfenig/apt-repo-action@master
+        with:
+          repo_supported_arch: |
+            amd64
+            arm64
+          repo_supported_version: |
+            jammy
+            lunar
+          file: libeccodes0_${{github.ref_name}}_lunar_amd64.deb
+          file_target_version: lunar
+          public_key: ${{ secrets.GPG_PUBLIC }}
+          private_key: ${{ secrets.GPG_PRIVATE }}
+          key_passphrase: ""
+
+      - name: Create API repo
+        uses: patrick-zippenfenig/apt-repo-action@master
+        with:
+          repo_supported_arch: |
+            amd64
+            arm64
+          repo_supported_version: |
+            jammy
+            lunar
+          file: libeccodes0_${{github.ref_name}}_lunar_arm64.deb
+          file_target_version: lunar
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
           key_passphrase: ""
