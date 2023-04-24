@@ -109,7 +109,7 @@ jobs:
             libeccodes0_${{github.ref_name}}_jammy_arm64.deb
             libeccodes0_${{github.ref_name}}_lunar_amd64.deb
             libeccodes0_${{github.ref_name}}_lunar_arm64.deb
-          draft: true
+          draft: false
 
       - name: Create API repo
         uses: patrick-zippenfenig/apt-repo-action@master
