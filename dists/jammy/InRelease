@@ -2,42 +2,42 @@
 Hash: SHA512
 
 Codename: jammy
-Date: Fri, 27 Oct 2023 08:43:50 UTC
+Date: Tue, 12 Dec 2023 17:05:35 UTC
 Architectures: amd64 arm64
 Components: main
 Description: patrick-zippenfenig/ecCodes-ubuntu
 MD5Sum:
- e2fee30bdcee53ede7ec46442dc15d7b 806 main/binary-amd64/Packages
- 56b822a255b40102f8af93ecee4e6dff 454 main/binary-amd64/Packages.gz
+ df07cff37c2e5e8a433c7d2dd0793d21 806 main/binary-amd64/Packages
+ 8ab22bcf6bbc478e3e6250841d4266a5 457 main/binary-amd64/Packages.gz
  f30151b243370ab69a56fbe8c25c81d0 84 main/binary-amd64/Release
- 9bfaf7ac372c390d884c76a555300b01 806 main/binary-arm64/Packages
- 5fb819e14f820725afba50c9ec9827e1 457 main/binary-arm64/Packages.gz
+ 13eb1321015780158632f28ab6895711 806 main/binary-arm64/Packages
+ 8beefc5610d6534b10f5d02568bedc92 455 main/binary-arm64/Packages.gz
  a35b8a2b196c2fbe80077b80fa988356 84 main/binary-arm64/Release
 SHA1:
- e6745a814fefed5d8e08601de930967ae0bd37e5 806 main/binary-amd64/Packages
- 65d33ab986808b3e46b633f9e894a7e029aa7901 454 main/binary-amd64/Packages.gz
+ b1f09175881c1473896183d8873c4c95ef44b02b 806 main/binary-amd64/Packages
+ dc5b5ce9a39386893b1fedf78dfc9e456c419015 457 main/binary-amd64/Packages.gz
  f299a1f1961bb4f5506646dcc474fa6e98f17445 84 main/binary-amd64/Release
- e7fc59ff6304814a7fe32c82a62a8c14f0c80f48 806 main/binary-arm64/Packages
- b10fdbc78c3804e533551f9994090446f2b5ddac 457 main/binary-arm64/Packages.gz
+ e2a5561a07a6a8d4c925d39177b98b3a7fc65d38 806 main/binary-arm64/Packages
+ 827bececc313c08ac45b1c0a7db0a8ebdd90ea69 455 main/binary-arm64/Packages.gz
  7025525cd5976b5ad741ff22dfb2f5df522afd18 84 main/binary-arm64/Release
 SHA256:
- bcaf5274099493ec227d7ccc38f0ea0a01602272bdb9762378a6b3ccab085d51 806 main/binary-amd64/Packages
- 71e3fe13e8bb19d9c25b06007c9a6b4251482df8f70368779ce8f7dd87a6c27e 454 main/binary-amd64/Packages.gz
+ e6162abcabbdfd86f2ecfbc40767ee4e56e0cc1dd7a790b8f97ff4c82894002a 806 main/binary-amd64/Packages
+ 696340dc4b56116c5ab49077c8add32a39ec320370f13494c1ffa85efdf4c204 457 main/binary-amd64/Packages.gz
  d4039875f6ab7f717c4994876b07b6c4e6de7729b650906a380565b516bb31d3 84 main/binary-amd64/Release
- a71be1a4533e338be26d7d116a6593a441d80c4282c473ac47701d3fc4c04094 806 main/binary-arm64/Packages
- 03d0690aebfc8848d724d4f8f73f2476c8a0adb1ba4fe42541a03f6ca47651ce 457 main/binary-arm64/Packages.gz
+ bd63031572493daa51a32ba9573e8d09ad7efe9bfa6834fed80e5872421e7490 806 main/binary-arm64/Packages
+ a30d72518ede0785219cd72645e91181f0d6eb4d34a4455bc59e122c59739266 455 main/binary-arm64/Packages.gz
  2106991c0b9e03e321c2a089bee80fc5eb7fb5a04d61f86e09ae84533b665aa0 84 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEjqc9BU1+5qoBiYXvntZ2S0fLWXMFAmU7eEYACgkQntZ2S0fL
-WXNK9wv9Fc3ElzMjZtoR5/YO9GuIh734uPbJna7efunuJqqvJukhKungTMRXPp2K
-DVpZl2Vov1hTA0jQREyW9RmaV4406i5aZ112jNNWcKK7AvCtbImt2cLbkpmGh+LA
-m78/NxPuwRSNAno5LZI/LfO2DNHKCce7JibWiazdx97qTO0n6CYq0/yG36g+NXQJ
-AiYpjc+q5qJDt1zQtOgzgB4Cr2M1vISSQv+XDN7ExJQyA8rvSWwy+ss0aVCQmyhf
-+ChCXiKdYiX65v9R7eIfovVzZ9QMYzK6YNBWyfvwQNfJGltPg4mqCroCM7EZeRyx
-XuBBulVttHZq2BMVvyF2h0VVNLVBn6Ezc1mNsxFEoB7tFsqwUZnmjW6fbpkFwZZm
-un2mGSuHaTQSsaiwmMiWrr/1KmWz3Hc8dib06km++tD34mhk0C7rJfsCO1CgzqqG
-wsdm+XCebV5guKzPnAi8ummjAGXC7ELgRNY/Gn3xWp6mSZRoXxFw4/d/a085KwhI
-Y+obpXsc
-=Wei7
+iQGzBAEBCgAdFiEEjqc9BU1+5qoBiYXvntZ2S0fLWXMFAmV4kt8ACgkQntZ2S0fL
+WXNDaQwAj6o30AqUG3V3UwdQNzaSTRrZsYVpFTGpuka1vPmuDlIulr6x/XohlK4x
+oo//kqyorW2NE+ocYTFTGvuoTt6Ja8qxS/HksGebL6/D1XLvsRhETPMZnnQ+3hMF
+yyrcYKcT3HbuXO/4PVdaIP7NPbmCukFKJyizeQvFx76mgA/Qh5t/te4oyWfx86A7
+NS0CCmHRgNX0EJD4aw+jY2WEijgQJn0hYf4gGQUqIZnignAjZVu7G1eqkSf7JhoB
+sethuH4UCuRn3IpFO91/dSdbJk6ZjJdh/IclAZ+sIwNHD2kgcduYMiPau7bWIFQ1
+qTmupOjolZhYhHhgR2tarYt9aOGGu1qAPKZ3LEfZU047UGOiYOKvxc2x98Jbf3dc
+ZiG+anYV32HrDVZoXJVcD1np7jYD6F0wEYDnmOG21M1CFvuQiRT8KOKmE13a2i7N
+DRgLay08eqopi3CS+yxWjEKXvN0Omim+09drsl5cW1vE6GIu856ADCMgkut/zfPg
+VTtaEbd/
+=laTi
 -----END PGP SIGNATURE-----
