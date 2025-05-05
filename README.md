@@ -1,6 +1,6 @@
 # ecCodes Ubuntu Packages
 
-Prebuilt [ECMWF ecCodes](https://github.com/ecmwf/eccodes) packages for Ubuntu `22.04 (jammy)` and `23.04 (lunar)` available via APT repository. Supports `amd64` and `arm64`.
+Prebuilt [ECMWF ecCodes](https://github.com/ecmwf/eccodes) packages for Ubuntu `22.04 (jammy)` and `24.04 (noble)` available via APT repository. Supports `amd64` and `arm64`.
 
 The prebuilt ecCodes packages are used to get the latest ECMWF ecCodes library for the open source weather api https://open-meteo.com.
 
@@ -12,7 +12,7 @@ sudo apt update
 sudo apt install libeccodes0
 ```
 
-Note: Make sure to select `jammy` or `lunar` above.
+Note: Make sure to select `jammy` or `noble` above.
 
 Only one `libeccodes0` package is available that contains development header, GRIB tables and binaries like `grib_ls`. On the official Ubuntu ecCodes distribution they split between `libeccodes0`, `libeccodes-dev`, `libeccodes-data`, `libeccodes-tools` and `libeccodes-doc`. 
 

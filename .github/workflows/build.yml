@@ -49,11 +49,11 @@ jobs:
           install_dir=install_ubuntu22_${{ matrix.arch }}
           docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:jammy /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_ECCODES_THREADS=ON -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=../$install_dir; ln -s /usr/lib/\`uname -m\`-linux-gnu/libeccodes.so ../$install_dir/usr/lib/\`uname -m\`-linux-gnu/libeccodes.so.0"
 
-      - name: build with ubuntu23
+      - name: build with ubuntu24
         run: |
-          build_dir=build_ubuntu23_${{ matrix.arch }}
-          install_dir=install_ubuntu23_${{ matrix.arch }}
-          docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:lunar /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_ECCODES_THREADS=ON -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=../$install_dir; ln -s /usr/lib/\`uname -m\`-linux-gnu/libeccodes.so ../$install_dir/usr/lib/\`uname -m\`-linux-gnu/libeccodes.so.0"
+          build_dir=build_ubuntu24_${{ matrix.arch }}
+          install_dir=install_ubuntu24_${{ matrix.arch }}
+          docker run --platform ${{ matrix.arch }} --rm --volume ${{ github.workspace }}:/workspace --workdir /workspace ubuntu:noble /bin/sh -c "apt-get update && apt-get -qq -y install gfortran ecbuild libjpeg-dev libpng-dev flex bison quilt swig doxygen libboost-dev libhdf5-dev chrpath libaec-dev libnetcdf-dev libopenjp2-7-dev; mkdir $build_dir $install_dir; cd $build_dir; cmake -DCMAKE_INSTALL_PREFIX=/usr -D ENABLE_ECCODES_THREADS=ON -D ENABLE_NETCDF=1 -D ENABLE_FORTRAN=0 -D ENABLE_JPG=1 -D ENABLE_MEMFS=0 ../eccodes; make -j4; make install DESTDIR=../$install_dir; ln -s /usr/lib/\`uname -m\`-linux-gnu/libeccodes.so ../$install_dir/usr/lib/\`uname -m\`-linux-gnu/libeccodes.so.0"
 
       - name: Package ubuntu22
         uses: gravitl/github-action-fpm@master
@@ -73,7 +73,7 @@ jobs:
 
       - name: Rename deb file
         run: |
-          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_lunar_${{ matrix.arch }}.deb
+          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_lnoble_${{ matrix.arch }}.deb
 
       - name: Upload packages
         uses: actions/upload-artifact@v3
@@ -107,8 +107,8 @@ jobs:
           artifacts: |
             libeccodes0_${{github.ref_name}}_jammy_amd64.deb
             libeccodes0_${{github.ref_name}}_jammy_arm64.deb
-            libeccodes0_${{github.ref_name}}_lunar_amd64.deb
-            libeccodes0_${{github.ref_name}}_lunar_arm64.deb
+            libeccodes0_${{github.ref_name}}_noble_amd64.deb
+            libeccodes0_${{github.ref_name}}_noble_arm64.deb
           draft: false
 
       - name: Create API repo
@@ -119,7 +119,7 @@ jobs:
             arm64
           repo_supported_version: |
             jammy
-            lunar
+            noble
           file: libeccodes0_${{github.ref_name}}_jammy_amd64.deb
           file_target_version: jammy
           public_key: ${{ secrets.GPG_PUBLIC }}
@@ -134,7 +134,7 @@ jobs:
             arm64
           repo_supported_version: |
             jammy
-            lunar
+            noble
           file: libeccodes0_${{github.ref_name}}_jammy_arm64.deb
           file_target_version: jammy
           public_key: ${{ secrets.GPG_PUBLIC }}
@@ -149,9 +149,9 @@ jobs:
             arm64
           repo_supported_version: |
             jammy
-            lunar
-          file: libeccodes0_${{github.ref_name}}_lunar_amd64.deb
-          file_target_version: lunar
+            noble
+          file: libeccodes0_${{github.ref_name}}_noble_amd64.deb
+          file_target_version: noble
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
           key_passphrase: ""
@@ -164,9 +164,9 @@ jobs:
             arm64
           repo_supported_version: |
             jammy
-            lunar
-          file: libeccodes0_${{github.ref_name}}_lunar_arm64.deb
-          file_target_version: lunar
+            noble
+          file: libeccodes0_${{github.ref_name}}_noble_arm64.deb
+          file_target_version: noble
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
           key_passphrase: ""
