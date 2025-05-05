@@ -28,12 +28,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: ${{ matrix.arch }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           install: true
 
@@ -65,18 +65,18 @@ jobs:
         run: |
           mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_jammy_${{ matrix.arch }}.deb
 
-      - name: Package ubuntu23
+      - name: Package ubuntu24
         uses: gravitl/github-action-fpm@master
         with:
           fpm_args: "."
-          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu23_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
+          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu24_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
 
       - name: Rename deb file
         run: |
-          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_lnoble_${{ matrix.arch }}.deb
+          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_noble_${{ matrix.arch }}.deb
 
       - name: Upload packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.arch }}
           path: |
@@ -92,11 +92,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download arm64 packages
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: arm64
       - name: Download amd64 packages
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: amd64
 
