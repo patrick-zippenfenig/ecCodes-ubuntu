@@ -1,0 +1,43 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Codename: noble
+Date: Mon, 05 May 2025 17:31:20 UTC
+Architectures: amd64 arm64
+Components: main
+Description: patrick-zippenfenig/ecCodes-ubuntu
+MD5Sum:
+ d41d8cd98f00b204e9800998ecf8427e 0 main/binary-amd64/Packages
+ 7029066c27ac6f5ef18d660d5741979a 20 main/binary-amd64/Packages.gz
+ f30151b243370ab69a56fbe8c25c81d0 84 main/binary-amd64/Release
+ d41d8cd98f00b204e9800998ecf8427e 0 main/binary-arm64/Packages
+ 7029066c27ac6f5ef18d660d5741979a 20 main/binary-arm64/Packages.gz
+ a35b8a2b196c2fbe80077b80fa988356 84 main/binary-arm64/Release
+SHA1:
+ da39a3ee5e6b4b0d3255bfef95601890afd80709 0 main/binary-amd64/Packages
+ 46c6643f07aa7f6bfe7118de926b86defc5087c4 20 main/binary-amd64/Packages.gz
+ f299a1f1961bb4f5506646dcc474fa6e98f17445 84 main/binary-amd64/Release
+ da39a3ee5e6b4b0d3255bfef95601890afd80709 0 main/binary-arm64/Packages
+ 46c6643f07aa7f6bfe7118de926b86defc5087c4 20 main/binary-arm64/Packages.gz
+ 7025525cd5976b5ad741ff22dfb2f5df522afd18 84 main/binary-arm64/Release
+SHA256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-amd64/Packages
+ 59869db34853933b239f1e2219cf7d431da006aa919635478511fabbfc8849d2 20 main/binary-amd64/Packages.gz
+ d4039875f6ab7f717c4994876b07b6c4e6de7729b650906a380565b516bb31d3 84 main/binary-amd64/Release
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-arm64/Packages
+ 59869db34853933b239f1e2219cf7d431da006aa919635478511fabbfc8849d2 20 main/binary-arm64/Packages.gz
+ 2106991c0b9e03e321c2a089bee80fc5eb7fb5a04d61f86e09ae84533b665aa0 84 main/binary-arm64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEjqc9BU1+5qoBiYXvntZ2S0fLWXMFAmgY9egACgkQntZ2S0fL
+WXONnAv9FRQbREKzgqNIPfQrE2C+whI/q8Sz3g6l05G1Psa6260Bv1IfOdIRST+R
+BX0waW43yyywHlfjogSdqvGeWzeDYphRKe4EXnhamgLz/5nNM8KY+ALknoXsFUy9
+jungt8uRqafbOvmLOsFQrZlmnzXddyjxND702LgutAM3x3V/GfX1jQAhG+LIy1he
+gVNhkkaC4dztiSM6EtnbjSv6tuEvfGGk0/WiuFYIWmLdeHPyi8Ekn1Dek/EKpSa3
+Eiciy+AK0d8V2WrdC0A7Ygoa4v+LgEOed2Ue5xsU4ee7eo1h8BrWaE4lDOSNp2FK
+FYMfGzTA36viCQEGOv9CgPBGiLdMqarHNBgsgdpv/QA4RlbOCDzcaDi+qZzo0YAV
+Cr1lhLvxH5KQuiw1w29xHPXWWeu28hibwBCqvDKWd9saj/6PKU+LwbKr6nefIs68
+dwOUu8mI1diL4Q9h1qwxxbA0S/ngx2gRtcNPntommObOQr1PaUBau9xjq6ZQ/Qwo
+7Vh59QIR
+=gpbT
+-----END PGP SIGNATURE-----

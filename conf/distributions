@@ -6,7 +6,7 @@ SignWith: 8EA73D054D7EE6AA018985EF9ED6764B47CB5973
 
 
 Description: patrick-zippenfenig/ecCodes-ubuntu
-Codename: lunar
+Codename: noble
 Architectures: amd64 arm64
 Components: main
 SignWith: 8EA73D054D7EE6AA018985EF9ED6764B47CB5973
