@@ -59,21 +59,13 @@ jobs:
         uses: gravitl/github-action-fpm@master
         with:
           fpm_args: "."
-          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu22_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
-
-      - name: Rename deb file
-        run: |
-          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_jammy_${{ matrix.arch }}.deb
+          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu22_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}}~jammy -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
 
       - name: Package ubuntu24
         uses: gravitl/github-action-fpm@master
         with:
           fpm_args: "."
-          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu24_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}} -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
-
-      - name: Rename deb file
-        run: |
-          mv libeccodes0_${{github.ref_name}}_${{ matrix.arch }}.deb libeccodes0_${{github.ref_name}}_noble_${{ matrix.arch }}.deb
+          fpm_opts: "-s dir -t deb -a ${{ matrix.arch }} -C ./install_ubuntu24_${{ matrix.arch }} -n libeccodes0 -v ${{github.ref_name}}~noble -d libaec0 -d libc6 -d libgfortran5 -d libgomp1 -d libopenjp2-7 -d libpng16-16 -d libnetcdf19 --replaces libeccodes-doc --replaces libeccodes-tools --replaces libeccodes-data --replaces libeccodes-dev --provides libeccodes-doc --provides libeccodes-tools --provides libeccodes-data --provides libeccodes-dev --conflicts libeccodes-doc --conflicts libeccodes-tools --conflicts libeccodes-data --conflicts libeccodes-dev"
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
@@ -105,10 +97,10 @@ jobs:
         with:
           generateReleaseNotes: true
           artifacts: |
-            libeccodes0_${{github.ref_name}}_jammy_amd64.deb
-            libeccodes0_${{github.ref_name}}_jammy_arm64.deb
-            libeccodes0_${{github.ref_name}}_noble_amd64.deb
-            libeccodes0_${{github.ref_name}}_noble_arm64.deb
+            libeccodes0_${{github.ref_name}}~jammy_amd64.deb
+            libeccodes0_${{github.ref_name}}~jammy_arm64.deb
+            libeccodes0_${{github.ref_name}}~noble_amd64.deb
+            libeccodes0_${{github.ref_name}}~noble_arm64.deb
           draft: false
 
       - name: Create API repo
@@ -120,7 +112,7 @@ jobs:
           repo_supported_version: |
             jammy
             noble
-          file: libeccodes0_${{github.ref_name}}_jammy_amd64.deb
+          file: libeccodes0_${{github.ref_name}}~jammy_amd64.deb
           file_target_version: jammy
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
@@ -135,7 +127,7 @@ jobs:
           repo_supported_version: |
             jammy
             noble
-          file: libeccodes0_${{github.ref_name}}_jammy_arm64.deb
+          file: libeccodes0_${{github.ref_name}}~jammy_arm64.deb
           file_target_version: jammy
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
@@ -150,7 +142,7 @@ jobs:
           repo_supported_version: |
             jammy
             noble
-          file: libeccodes0_${{github.ref_name}}_noble_amd64.deb
+          file: libeccodes0_${{github.ref_name}}~noble_amd64.deb
           file_target_version: noble
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
@@ -165,7 +157,7 @@ jobs:
           repo_supported_version: |
             jammy
             noble
-          file: libeccodes0_${{github.ref_name}}_noble_arm64.deb
+          file: libeccodes0_${{github.ref_name}}~noble_arm64.deb
           file_target_version: noble
           public_key: ${{ secrets.GPG_PUBLIC }}
           private_key: ${{ secrets.GPG_PRIVATE }}
