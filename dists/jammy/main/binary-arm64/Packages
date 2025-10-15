@@ -1,10 +1,10 @@
 Package: libeccodes0
-Version: 2.41.0
+Version: 2.44.0
 License: unknown
 Vendor: none
 Architecture: arm64
-Maintainer: <@4fe573928dc4>
-Installed-Size: 75671
+Maintainer: <@58eb8b2a8b07>
+Installed-Size: 82180
 Depends: libaec0, libc6, libgfortran5, libgomp1, libopenjp2-7, libpng16-16, libnetcdf19
 Conflicts: libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
 Provides: libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
@@ -12,10 +12,10 @@ Replaces: libeccodes-doc, libeccodes-tools, libeccodes-data, libeccodes-dev
 Homepage: http://example.com/no-uri-given
 Priority: extra
 Section: default
-Filename: pool/main/libe/libeccodes0/libeccodes0_2.41.0_arm64.deb
-Size: 23555876
-SHA256: b309d5b9dae5350ec0500f4436b118c31b733cd0dbe6a3dd73067f62e2a8e0cf
-SHA1: d1ae7bdd431db5193c972fec7f2b37479917b27a
-MD5sum: 5554fa7c47f4e9eab11b2dfddba1d3b7
+Filename: pool/main/libe/libeccodes0/libeccodes0_2.44.0_arm64.deb
+Size: 23479230
+SHA256: 316e5e5184baa03a805ecbe3191203f807ff5540311d9ba4806091326654c60c
+SHA1: 2f379690bd83350210015306e1fb4fa6503d44f1
+MD5sum: 306910f0987e4e89c2f8c59938ae9237
 Description: no description given
 
